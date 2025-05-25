@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block content %}
+添加新物品
+{{ form.hidden_tag() }} {# 包含 CSRF token #}
+{{ form.name.label(class="block text-gray-700 text-sm font-bold mb-2") }} {{ form.name(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }} {% for error in form.name.errors %}
+{{ error }}
+
+{% endfor %}
+{{ form.description.label(class="block text-gray-700 text-sm font-bold mb-2") }} {{ form.description(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-24 resize-y") }} {% for error in form.description.errors %}
+{{ error }}
+
+{% endfor %}
+{{ form.unit.label(class="block text-gray-700 text-sm font-bold mb-2") }} {{ form.unit(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }} {% for error in form.unit.errors %}
+{{ error }}
+
+{% endfor %}
+{{ form.reorder_level.label(class="block text-gray-700 text-sm font-bold mb-2") }} {{ form.reorder_level(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }} {% for error in form.reorder_level.errors %}
+{{ error }}
+
+{% endfor %}
+{{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline transition-colors") }} {# 修正为 main.items #} 取消
+{% endblock %}

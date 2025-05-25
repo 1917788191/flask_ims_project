@@ -1,0 +1,16 @@
+    /* 你可以在这里添加任何自定义的 CSS 样式，它们会覆盖 Tailwind 的默认样式 */
+    /* 例如，如果你想为特定的元素添加动画或更复杂的布局 */
+
+    /* 确保表单输入框在焦点时有更好的视觉反馈 */
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* blue-500 with 50% opacity */
+        border-color: #4299e1; /* blue-500 */
+    }
+
+    /* 针对小屏幕的表格滚动 */
+    @media (max-width: 768px) {
+        .overflow-x-auto {
+            overflow-x: scroll;
+        }
+    }

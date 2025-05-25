@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-4xl font-bold text-gray-800 mb-6">欢迎，{{ current_user.username }}！</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <div class="bg-blue-100 p-6 rounded-lg shadow-md flex items-center justify-between">
+        <div>
+            <h2 class="text-xl font-semibold text-blue-800">总物品种类</h2>
+            <p class="text-3xl font-bold text-blue-900">{{ items|length }}</p>
+        </div>
+        <i class="fas fa-boxes text-blue-500 text-5xl opacity-50"></i>
+    </div>
+
+    <div class="bg-green-100 p-6 rounded-lg shadow-md flex items-center justify-between">
+        <div>
+            <h2 class="text-xl font-semibold text-green-800">总库存数量</h2>
+            <p class="text-3xl font-bold text-green-900">
+                {% set total_quantity = 0 %}
+                {% for item in items %}
+                {% if item.inventory %}
+                {% set total_quantity = total_quantity + item.inventory.quantity %}
+                {% endif %}
+                {% endfor %}
+                {{ total_quantity }}
+            </p>
+        </div>
+        <i class="fas fa-warehouse text-green-500 text-5xl opacity-50"></i>
+    </div>
+
+    <div class="bg-yellow-100 p-6 rounded-lg shadow-md flex items-center justify-between">
+        <div>
+            <h2 class="text-xl font-semibold text-yellow-800">低库存物品</h2>
+            <p class="text-3xl font-bold text-yellow-900">{{ low_stock_items|length }}</p>
+        </div>
+        <i class="fas fa-exclamation-triangle text-yellow-500 text-5xl opacity-50"></i>
+    </div>
+</div>
+
+{% if low_stock_items %}
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-8" role="alert">
+    <strong class="font-bold">注意！</strong>
+    <span class="block sm:inline">以下物品库存低于再订购水平：</span>
+    <ul class="list-disc list-inside mt-2">
+        {% for item in low_stock_items %}
+        <li>
+            <span class="font-semibold">{{ item.name }}</span> (当前库存: {{ item.inventory.quantity if item.inventory
+            else 0 }})
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
+<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-8" role="alert">
+    <strong class="font-bold">太棒了！</strong>
+    <span class="block sm:inline">目前没有物品库存低于再订购水平。</span>
+</div>
+{% endif %}
+
+<h2 class="text-3xl font-bold text-gray-800 mb-4">快速操作</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <a href="{{ url_for('main.add_item') }}"
+       class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-lg shadow-lg flex items-center justify-center transition-colors transform hover:scale-105">
+        <i class="fas fa-plus-circle text-2xl mr-3"></i> 添加新物品
+    </a>
+    <a href="{{ url_for('main.inventory') }}"
+       class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-4 px-6 rounded-lg shadow-lg flex items-center justify-center transition-colors transform hover:scale-105">
+        {# 修正为 main.inventory #}
+        <i class="fas fa-exchange-alt text-2xl mr-3"></i> 调整库存
+    </a>
+</div>
+{% endblock %}
